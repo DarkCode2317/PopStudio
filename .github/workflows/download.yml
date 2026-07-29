@@ -1,0 +1,26 @@
+name: Download Artifact
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+
+    steps:
+      - name: Download artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download \
+            <RUN_ID> \
+            -n <ARTIFACT_NAME> \
+            -D artifact
+
+      - name: List files
+        run: |
+          find artifact -type f
