@@ -46,17 +46,16 @@ jobs:
           dotnet restore PopStudio.MAUI/PopStudio.MAUI.csproj
 
       - name: Build ARMv7 APK
-        run: |
-          dotnet publish PopStudio.MAUI/PopStudio.MAUI.csproj \
-            -f net9.0-android \
-            -c Release \
-            -r android-arm \
-            -p:AndroidPackageFormat=apk \
-            -p:RuntimeIndentifier=android-arm \
-            -p:RuntimeIndentifiers=android-arm \
-
-p:AndroidSupportedAbis=armeabi-v7a \
-               p:AndroidUseAssemblyStore=true
+  run: |
+    dotnet publish PopStudio.MAUI/PopStudio.MAUI.csproj \
+      -f net9.0-android \
+      -c Release \
+      -r android-arm \
+      -p:AndroidPackageFormat=apk \
+      -p:RuntimeIdentifier=android-arm \
+      -p:RuntimeIdentifiers=android-arm \
+      -p:AndroidSupportedAbis=armeabi-v7a \
+      -p:AndroidUseAssemblyStore=true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
