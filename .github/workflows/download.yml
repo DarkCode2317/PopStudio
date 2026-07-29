@@ -24,3 +24,14 @@ jobs:
       - name: List files
         run: |
           find artifact -type f
+
+      - name: Extract APK
+        run: |
+          APK=$(find artifact -name "*.apk" | head -n 1)
+          cp "$APK" app.zip
+          mkdir extracted
+          unzip -q app.zip -d extracted
+
+      - name: Show largest files
+        run: |
+          find extracted -type f -printf "%s %p\n" | sort -nr | head -100
