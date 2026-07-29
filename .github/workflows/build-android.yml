@@ -16,6 +16,27 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
+      # Cache NuGet dependencies only
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # Cache MAUI workload files only
+      - name: Cache .NET workload
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.dotnet/packs
+            ~/.dotnet/sdk-manifests
+            ~/.dotnet/metadata
+          key: ${{ runner.os }}-dotnet-workload-maui-9
+          restore-keys: |
+            ${{ runner.os }}-dotnet-workload-
+
       - name: Install MAUI Android workload
         run: |
           dotnet workload install maui-android
@@ -31,12 +52,8 @@ jobs:
             -c Release `
             -r android-arm `
             /p:AndroidPackageFormat=apk `
-            /p:AndroidUseAssemblyStore=true `
-            /p:AndroidSupportedAbis=armeabi-v7a
-
-      - name: Check APK output
-        run: |
-          dir /s *.apk
+            /p:AndroidSupportedAbis=armeabi-v7a `
+            /p:AndroidUseAssemblyStore=true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
