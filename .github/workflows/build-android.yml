@@ -1,0 +1,38 @@
+name: Build PopStudio Android ARMv7
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install MAUI Android workload
+        run: dotnet workload install maui-android
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build ARMv7 APK
+        run: |
+          dotnet publish PopStudio.MAUI/PopStudio.MAUI.csproj `
+            -f net9.0-android `
+            -c Release `
+            -r android-arm `
+            /p:AndroidPackageFormat=apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PopStudio-armv7
+          path: |
+            PopStudio.MAUI/bin/Release/**/*.apk
