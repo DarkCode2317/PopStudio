@@ -52,7 +52,10 @@ jobs:
             -c Release `
             -r android-arm `
             /p:AndroidPackageFormat=apk `
-            /p:AndroidSupportedAbis=armeabi-v7a `
+            /
+p:RuntimeIndentifier=android-arm /
+p:RuntimeIndentifiers=android-arm /
+p:AndroidSupportedAbis=armeabi-v7a `
             /p:AndroidUseAssemblyStore=true
 
       - name: Upload APK
