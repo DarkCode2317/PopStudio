@@ -17,10 +17,12 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Install MAUI Android workload
-        run: dotnet workload install maui-android
+        run: |
+          dotnet workload install maui-android
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          dotnet restore PopStudio.MAUI/PopStudio.MAUI.csproj
 
       - name: Build ARMv7 APK
         run: |
@@ -28,11 +30,17 @@ jobs:
             -f net9.0-android `
             -c Release `
             -r android-arm `
-            /p:AndroidPackageFormat=apk
+            /p:AndroidPackageFormat=apk `
+            /p:AndroidUseAssemblyStore=true `
+            /p:AndroidSupportedAbis=armeabi-v7a
+
+      - name: Check APK output
+        run: |
+          dir /s *.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: PopStudio-armv7
+          name: PopStudio-armeabi-v7a
           path: |
-            PopStudio.MAUI/bin/Release/**/*.apk
+            **/publish/*.apk
