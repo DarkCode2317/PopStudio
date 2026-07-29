@@ -17,7 +17,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh run download \
-            30427294024 \
+            30440515708 \
             --repo ${{ github.repository }} \
             -n PopStudio-armeabi-v7a \
             -D artifact
