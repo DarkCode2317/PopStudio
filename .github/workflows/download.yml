@@ -17,8 +17,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh run download \
-            <RUN_ID> \
-            -n <ARTIFACT_NAME> \
+            30427294024 \
+            -n PopStudio-armeabi-v7a \
             -D artifact
 
       - name: List files
