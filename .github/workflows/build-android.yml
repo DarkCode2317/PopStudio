@@ -62,4 +62,4 @@ jobs:
         with:
           name: PopStudio-armeabi-v7a
           path: |
-            **/publish/*.apk
+            **/publish/*-Signed.apk
